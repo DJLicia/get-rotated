@@ -1,0 +1,129 @@
+/* General Styles */
+
+body {
+  font-family: Georgia, sans-serif;
+  background-color: #f0f0f0;
+  color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto
+}
+
+header.site-header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(to right, #003B4C, #005851);
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 1000;
+  color: rgb(248, 246, 242);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+nav {
+  background: linear-gradient(to right, #003B4C, #005851);
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(248, 246, 242);
+}
+
+nav ul {
+  list-style: none; /* Remove bullet points */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between; /* Push items to opposite ends */
+  align-items: center; /* Vertically center items */
+  max-width: 1200px;
+  margin: 0 auto; /* Center the nav bar */
+}
+
+nav a {
+  color: rgb(248, 246, 242);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #FF6C0C; 
+}
+
+.nav-logo {
+  margin-right: auto; /* Pushes the logo to the left */
+}
+
+.nav-link {
+  margin-left: auto; 
+}
+
+
+
+.retro-title {
+font-size: 3rem;
+color: #ff6f61;
+text-shadow: 2px 2px 0 #ffcc00;
+margin-bottom: 2rem;
+}
+
+.profiles {
+display: flex;
+justify-content: space-between;
+gap: 2rem;
+}
+
+.profile {
+background-color: #C8C8C8;
+padding: 1.5rem;
+border-radius: 10px;
+box-shadow: 5px 5px 0 #9DAE88;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile:hover {
+transform: translate(-5px, -5px);
+box-shadow: 10px 10px 0 #FF6C0C;
+}
+
+.profile-image img {
+border-radius: 50%;
+border: 3px solid #ffcc00;
+width: 150px;
+height: 150px;
+object-fit: cover;
+}
+
+.profile-name {
+font-size: 1.75rem;
+color: #00000f;
+margin: 1rem 0;
+transition: color 0.3s ease;
+cursor: pointer;
+}
+
+.profile-name:hover {
+color: #ff6f61;
+}
+
+.profile-description {
+font-size: 1rem;
+line-height: 1.5;
+color: #060019;
+}

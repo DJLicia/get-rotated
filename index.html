@@ -1,0 +1,471 @@
+<!-- Main landing page -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/p5.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.1/addons/p5.sound.min.js"></script>
+    <script src="sketch1.js"></script>
+    <!-- <script src="sketch2.js"></script> 
+    <script src="sketch3.js"></script>
+    <script src="sketch4.js"></script>  -->
+    <link rel="stylesheet" href="styles.css">
+    <title>Get Rotated</title>
+
+  </head>
+  <body>
+    <header class="site-header">
+      <nav>
+          <ul>
+            <li>
+              <a href="#" class="nav-logo">Rotating Diversity: CS 162 Final Project</a>
+            </li>
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+          </ul>
+      </nav>
+    </header>
+
+    <h1> Rotating Diversity</h1>
+    <div id="conclusion">
+      <p> 
+        Caltech has long been known not only for its rigorous academic environment
+         but for its  close-knit undergraduate community- a staple of the Caltech 
+         experience that we owe to the House system. Living in, and being a part 
+         of a House is a life-changing experience for many Techers that you won’t
+          find in any other college, let alone in the outside world. Houses 
+          connect people of all grades, providing a social safety net and an 
+          opportunity for new students to learn from old students, all to help
+           navigate the confusing and rigorous environment that is Caltech. With
+            their traditions and historic spaces, the Houses manipulate space 
+            and time to connect students from the past, present, and future.</p> 
+        <p>Three days after prefrosh first set foot on campus, they get to know the
+         Houses during rotation. By the end of it, the prefrosh rank the Houses 
+         in order of preference and the Houses pick a list of particular prefrosh
+          they especially want. Then, prefrosh are given their House assignments
+           by what students lovingly refer to as “the algorithm”.</p> 
+        <p>However, rotation could lead to a reduced amount of diversity within the
+         Houses themselves, as it enables students to pick the Houses they get 
+         along with the most, and vice versa. Colleges advertise themselves as 
+         allowing their students to meet a diverse group of people.
+          The <a href="https://registrar.caltech.edu/records/enrollment-statistics" target="_blank" >demographic composition</a> of Caltech as a whole has evolved, reflecting
+           societal and institutional efforts to promote diversity and inclusion. 
+            However, do these efforts actually result in a more diverse student
+             life experience? </p>
+          <p>What if Caltech ensured a diverse student life by making sure that each
+         House has a diverse population? We already do this to an extent, as we
+          try to make each House have the same gender ratio. Though, what about
+           other demographic categories like athletes, LGBTQIA+ people, and under
+           -represented minorities (URMs)? Should we ensure that these groups 
+           are evenly spread throughout the Houses? Would this foster a more 
+           diverse college experience, or erode House community and isolate people,
+            by putting people in Houses they did not choose?
+        </p>
+        
+        <h3>Creating our Toy Model</h3>
+            
+        <p>We begin with a population of <b>500 students</b>, representing
+        the demographic makeup of Caltech in this four-year instance. We 
+        gave three attributes to each student in the population: sports participation, Queer identity, 
+        and under-represented minority status.</p>
+      </div>
+    
+      <section class="scrolly-container">
+        <!-- Sticky graphic section -->
+        <figure class="scroll-graphic" id="sort-dot">
+          <iframe height=500px width=700px src="https://editor.p5js.org/DJLicia/full/wg1AYLY3P"></iframe>
+        </figure>
+      
+        <article class="scroll-text">
+          <div class="step" data-step="0">
+          <h3> Real-World Housing Choices </h3>
+          <p>Universities and other formal organizations have been primarily 
+            concerned with <b>structural diversity</b>, otherwise known as the numerical 
+            representation of diverse groups admitted to their campuses. In diversity literature, researchers 
+            are focused on the impact of <b><i>informal interactional diversity</i></b>. Although 
+            these informal interactions with
+             diverse peers can occur in many 
+            campus contexts, the majority of them occur outside of the classroom. Such 
+            interactions are facilitated by the House structure, including informal 
+            conversation, daily interactions in residence halls, House events, 
+            and casual social activities.</p>
+          <p>
+            In the current housing system, specific Houses tend to have more of 
+            one population in them than others. For instance, most of the athletes
+             tend to end up in one House. The Houses may also differ in terms of 
+             underrepresented minority, international status, or if they identify
+              as queer or not.</p> 
+            
+            <p>For the sake of this toy model, we are assuming that certain groups 
+            will tend to pick one House over the others. </p>
+<!--             
+            <h3>Equalized</h3> 
+            <p>The rotation algorithm makes some effort to equalize the proportion 
+            of male to non-male individuals in each House. What if quotas like 
+            this one were instated for other categories?  -->
+            <!-- </p> -->
+          </div>
+          <div class="step" data-step="1">
+            <h3> Determining Self-Selection in our Toy Model </h3>
+            <p>
+            Then for each individual, we generated a “House ranking,” which is
+             what we assume the individual would have ranked the Houses.For instance, if someone’s ranking is C, A, D, B, then C is their most preferred house,
+             while B is their least preferred.  </p>
+            <p> The ranking is based on what groups they were a part of. So, 
+              if someone plays a sport, then they will rank
+              House A first. If they are an URM, then they will rank B first. If they are 
+              queer then they will rank C first. 
+            <p>If someone belongs to multiple groups, then they rank the Houses associated with
+            those groups first, the order of which is random. They will rank the rest of the
+              Houses below those groups.</p> 
+           <p>For example, if a student is an athlete and queer, then they will rank A and C before B and 
+            D. So, some possible rankings they could submit are: (A, C, B, D) or  (C, A, D, B);
+            etc. </p>
+          <p>Next, we <i>rotated</i> the population!
+          </p>
+        </div>
+        
+        <div class="step" data-step="1">
+          <h3> Our Rotation Algorithm </h3>
+          <p>
+            To rotate the individuals, we needed to create an algorithm that 
+            would maximize assigning people to their high priority house picks,
+            while keeping the number of people in each house the same. This 
+            problem is similar to the stable marriage problem which uses the
+              Gale-Shapley algorithm, but with an added constraint of keeping
+              house sizes balanced. This algorithm is what matches medical students 
+              with residencies!
+          </p>
+        </div>
+        
+        </article>
+      </section>
+    
+    <!-- VISUALIZATION #1 -->
+     <section class="scrolly-container">
+        <!-- Sticky graphic section -->
+        <figure class="scroll-graphic" id="athlete-dot">
+          <iframe width=750px height=550px src="https://editor.p5js.org/DJLicia/full/1TzEDTd7b"></iframe>
+        </figure>
+      
+        <article class="scroll-text">
+          <div class="step" data-step="0">
+            <h3>Self-Selection of Athletes</h3>
+            <p>Caltech has had student-athletes since 1893 with 16 current 
+              intercollegiate teams and is a member of the NCAA Division III. However, 
+              within the last decade, the proportion 
+              of athletes among the undergraduate student body has increased to <b>over
+               25%</b>. This was due to an increasing role of athletics in admissions,
+                which informs our toy model's proportion of athletes as well as 
+                our self-sorting algorithm. However, according to a 2024 article in
+                the Tech, Caltech faculty stated that:</p>
+                <blockquote class="highlight-quote">
+                  <q>The preference that was given to athletes over the last few
+                     years will be gradually diminished, such that admissions 
+                     will be based solely on academic merit and excellence.</q>
+                </blockquote>
+ 
+               <p>This will have lasting impacts on Caltech's
+                athletic population, among decreasing the number of student-athletes 
+                on campus. Using our toy model, we visualized how 
+                student-athletes are currently distributed among the Houses. We 
+                speculate this distribution influences their academic and social well-being, 
+                community cohesiveness, and belongingness. 
+              </p>
+              
+          </div>
+          <div class="step" data-step="1">
+            <h3> Balancing Athlete Distribution</h3>
+            <p>We operated under the assumption that athletes gravitated towards
+               other athletes, which led to House A having about 90% of the 
+               school's student-athletes, as shown by the dot visual on the
+                left. Clicking through the button shows how the athlete versus
+                 non-athlete distribution among the Houses is uneven. 
+              </p>
+              <p>In the case of the current distribution where students self-select
+                into Houses, then the students involved in sports may report higher
+                 levels of stress but also stronger social connections within their
+                  Houses. Sports team participation informs active culture (through
+                   attending House dinners, trips, meetings, etc), along with daily 
+                   schedule and noise level, especially at night. On average, 
+                   Caltech student-athletes sleep earlier and wake up much earlier 
+                   than the average non-athlete. </p>
+          </div>
+
+          <div class="step" data-step="2">
+            <h3> Balancing Under-represented Minority Distribution</h3>
+            <p> Under the same assumption, under-represented minority (URM) groups would gravitate
+              towards each other. In our toy model, we set 15% of the population to be
+              URMs, with a majority of them self-selecting into House B.
+              </p>
+              <p>Over the years, the demographic composition of Caltech has evolved greatly, 
+                reflecting societal changes and institutional efforts to promote diversity
+                and inclusion.</p>
+
+            <h3> Balancing LGBTQIA+ Distribution</h3>
+            <p> We set 10% of our model population to be
+              queer, with a majority of them self-selecting into House C.
+              </p>
+              <p>Being a member of the queer community could inform hobbies, 
+                music, and the types of House culture and social events being
+                organized. 
+              </p>
+          </div>
+        </article>
+      </section>
+
+      <section class="scrolly-container">
+        <figure class="scroll-graphic" id="athlete-causal">
+            <iframe width="800" height="600" frameborder="0" src="https://ncase.me/loopy/v1.1/?embed=1&data=[[[1,575,152,0.16,%22Athlete%2520Quota%22,4],[4,724,249,0.33,%22Athletes%2520Spread%2520Thin%22,1],[5,895,353,1,%22Team%2520Comraderie%22,1],[6,410,235,0.16,%22House%2520Diversity%22,3],[7,788,500,1,%22Teamwork%22,1],[8,935,497,1,%22Leadership%22,1],[10,661,432,0.83,%22Time%2520Management%22,1],[11,288,367,0.66,%22United%2520culture%22,3],[12,172,482,0.66,%22Community%2520Sense%22,3],[13,475,384,0.33,%22Student%2520Fitness%22,3],[14,1044,288,1,%22Isolation%22,0],[15,1115,425,1,%22Good%2520Grades%22,0]],[[1,4,46,1,0],[4,5,62,-1,0],[1,6,-21,1,0],[5,7,-66,1,0],[5,8,74,1,0],[4,10,-65,-1,0],[6,11,-42,1,0],[11,12,44,1,0],[6,13,53,1,0],[13,10,-23,1,0],[5,14,20,-1,0],[14,15,22,-1,0]],[[579,85,%22Evenly%2520Distributing%2520Athletes%2520Across%2520Houses%22]],15%5D"></iframe>
+        </figure>
+        <article class="scroll-text">
+          <div class="step" data-step="0">
+            <h3> Many factors play into student success... </h3>
+            <p>Here, if you hover over each of the nodes in the causal diagram, 
+              you can increase or decrease their quantity and observe how they 
+              detract or improve other aspects of students' environment. There are
+              far-reaching implications for spreading out Caltech's athletes among
+              the Houses. 
+            </p>
+          </div>
+          <div class="step" data-step="1">
+            <h3>Life-Style Factors</h3>
+              <p>In our speculative model, having less student-athletes 
+                will increase their isolation due to being the minority in terms 
+              of sleep and work schedule and exercise lifestyle. For example, a
+               different sleep schedule can cause potential tension between an 
+               athlete and non-athlete. It also affects the rest of the time 
+               they have outside of sports to spend in the House socializing 
+               with other non-athletic students. Less bonding time weakens their 
+               relationship to their Housemates, as well as their want to contribute
+                towards the House community. A positive feedback loop forms as 
+                the more isolated they become, the harder it is for the athletes
+                 to become connected to their community. 
+              </p>
+          </div>
+        </article>
+      </section>
+
+      <section class="scrolly-container">
+        <figure class="scroll-graphic" id="queer-urm-causal">
+          <iframe width="700" height="600" frameborder="0" src="https://ncase.me/loopy/v1.1/?embed=1&data=[[[1,263,179,0.16,%22Isolated%22,0],[2,254,581,0.16,%22Community%22,5],[4,1011,558,0.16,%22Academics%252FSocial%22,2],[5,569,66,0,%22New%2520Rotation%22,1],[6,832,159,0.16,%22House%2520Diversity%22,4],[8,752,329,0.33,%22Acceptance%22,3],[9,1041,333,0,%22Worldly%2520view%22,3],[10,507,462,0.16,%22Public%2520Etiquette%22,3],[11,809,470,0.33,%22Altruism%22,3],[13,892,331,0.16,%22Cognitive%2520Dev.%22,3]],[[1,2,-74,-1,0],[2,4,-76,1,0],[6,9,59,1,0],[6,8,11,1,0],[6,13,30,1,0],[9,4,27,1,0],[13,4,27,1,0],[5,1,-30,1,0],[5,6,34,1,0],[13,10,40,1,0],[10,2,-48,1,0],[8,11,-79,1,0],[11,2,72,1,0]],
+          [[402,148,%22Students%2520are%2520%250Aput%2520into%2520a%250A%2520house%2520they%2520%250Adid%2520not%2520choose%22],[299,412,%22Lower%2520sense%2520of%2520%250Acommunity%2520decreases%2520%250AHouse%2520culture%252C%2520which%250Areduces%2520students'%250Aacademic%2520and%2520%250Asocial%2520outcomes%22],[591,349,%22More%2520volunteering%250Aand%2520community%250Awork%2520will%2520also%2520lead%2520to%250Aa%2520greater%2520respect%2520of%250Apublic%2520spaces%22],[1009,106,%22A%2520diverse%2520environment%250Awould%2520lead%2520to%2520greater%250Atolerance%2520of%2520different%2520people%22],[636,219,%22Exposure%2520to%2520new%2520points%2520of%250Aview%2520would%2520lead%2520to%2520%250Abetter%2520academic%2520%250Aoutcomes%2520and%2520research%250Abreakthroughs%22],[292,13,%22%22]],14%5D"></iframe>        </figure>
+          <article class="scroll-text">
+          <div class="step" data-step="0">
+            <h3> What if under-represented minorities (URMs) were balanced
+              throughout the Houses? </h3>
+                <p> 
+                  Through meeting and talking with people of all backgrounds, you
+                  engage with more complex ideas. This leads to more innovative research,
+                  and greater inclusivity in public spaces after students leave college.
+                </p>
+                <p>Rare or moderate diversity interactions are associated with virtually
+               no growth (and sometimes even slight declines) in leadership skills, 
+               psychological well-being, and intellectual engagement, whereas very
+                frequent diversity interactions are associated with considerable
+                 growth 
+                 (<a href="https://link.springer.com/article/10.1007/s11162-013-9300-0" target="_blank">Bowman 2013</a>).
+              </p>
+                <p>
+                  When minority groups are more spread out, students can feel 
+                  isolated, especially if the majority group is unwelcoming.
+                   This can lead to a lower sense of community, affecting
+                  their academic performance and social belonging.
+                </p>
+                <blockquote class="highlight-quote">
+                  The benefits of diversity are maximized when paired with an inclusive culture
+                </blockquote>
+          </div>
+          <div class="step" data-step="1">
+            <h3>These causal factors ended up being similar when balancing the Queer Community </h3>
+            <p>When universities promote gender-inclusivity, this show individuals a
+              commitment to social responsibility.
+              Being exposed to free expression of gender characteristics challenges
+               traditional gender stereotypes, potentially reducing gender discrimination and 
+               inequality, providing a secure and comfortable living environment
+                that protects women and other gender minorities from all forms of 
+                sexual harassment and violence.
+              </p>
+              <p> On the otherhand, one study in diversity research (<a href="https://link.springer.com/article/10.1007/s11162-013-9300-0" target="_blank">Lee 2024</a>) has also found that
+                female students do not really believe
+                 it promotes gender diversity or understanding. Also, people's 
+                 backgrounds (attending single-sex high schools, having members of
+                  the opposite sex in their high school classes, having opposite-sex 
+                  siblings at home, holding different religious beliefs, having interacted
+                   with individuals of other genders, having engaged with 
+                   non-traditional gender expressions, and having chosen gender 
+                   studies courses) show no significant difference in their intention
+                  to be in gender-inclusive housing. </p>
+                  <blockquote class="highlight-quote">
+                    This might indicate a negative perception of other genders
+                     that needs to be tackled. 
+                  </blockquote>
+                
+                <p> In light of these findings, it is more important than ever
+                that we continue create welcome environments where students learn
+                empathy and understanding of all humans. Institutions play a powerful role in
+                 shaping how communities respond to difference, and when they 
+                 lead with inclusive policies and visible support, they help set
+                  a tone that encourages unity rather than division. Creating spaces for
+                such interactions ensures a more equal community.
+                </p>
+          </div>
+          <div class="step" data-step="2">
+            <p>When integrating a more diverse community, both top-down and
+              bottom-up approaches are vital. Individual behavior influences outcomes 
+              of policy implementation and vice versa.</p>
+            
+          </div>
+        </article>
+      </section>
+      
+      <section class="scrolly-container">
+        <figure class="scroll-graphic" id="belonging-graph">
+          <iframe height=500px width=700px src="https://editor.p5js.org/mirror_neuron/full/IbGq3ASut"></iframe>
+        </figure>
+          <article class="scroll-text">
+          <div class="step" data-step="0">
+            <h3>Belongingness Across Scenarios</h3>
+            <p>
+              There are many different outcomes that would be effected by a change 
+              in the rotation algorithm. We picked one to model: "belongingness".
+              
+              “Belongingness” is simply a measure of how many people in a student’s 
+              house share an attribute of that student. For instance, if a student 
+            is an athlete, we looked at the proportion of people in the student’s 
+            House who are athletes, then threw that number into an equation, then 
+            added the result to the student’s belongingness measure. </p>
+
+            <p>The equation for measuring belongingness in the House was as follows:</p>
+            <figure class="centered-figure">
+              <img src="belonging-curve.png" alt="Belongingness Curve" />
+            </figure>
+
+            <p>The amount of belonging increases steeply then falls off exponentially. 
+            This function was created based on the assumption that at least one hall
+             full of people, which equates to 0.08 of a House,  was needed to make 
+             people feel an adequate amount of belongingness. </p>
+
+          </div>
+          <div class="step" data-step="1">
+            <h3> Average Belonging Among the Categories</h3>
+            <p>To the left are the average amounts of “Belongingness” for students 
+              in each category. 
+
+            <p>As we can see, students had a higher sense of belongingness when
+              they were placed into a House they wanted (the Self-Selection scenario).</p> 
+              
+            <p>In the equalized scenario, where an equal amount of each demographic 
+              group was placed in each House to maximize informal interactional 
+              diversity, the scores were lower across the board.</p> 
+  
+            <p>Though in both scenarios, athletes had the most belongingness,
+               followed by URMs, and queers. This is because the more of a particular
+                demographic there is, the more of them will be present in each House,
+                 even if they are equally spread among the Houses. 
+              </p>
+          </div>
+        </article>
+      </section>
+
+      <div id="conclusion">
+        <h3>Reflecting on our Process</h3>
+        <p> 
+          We were attempting to model an extremely complex system,
+          which resulted in a lot of 
+          assumptions and leaps in logic. Even after narrowing down our
+          parameters, we attempt to assign values to factors 
+          that are difficult to quantify, with many confounding variables. We
+           had to cut down to only four demographic groups 
+          that exist, and that these groups have very simple, stereotyped, Housing 
+          preferences. In the process of building our model, we also experimented
+           with adding more demographic groups and measuring different outcomes.
+            Each variable we added (and attempted to add) helped us understand just
+             how complicated of a system we are working with.</p> 
+        <p> As such, our experiment should serve to make you think about how hard 
+          it is to consider all of the implications that simple changes to the
+           rotation algorithm might entail. More importantly, it shows the 
+           difficulty of balancing the benefits of diversity, with the ethics 
+           of placing people in a House they might not want.     
+        </p>
+        <h3> How Diversity Affects Society Past College </h3>
+        <p>
+          Pulled from diversity research, there are many positive effects from student
+          diversity when done right. It ensures safe  and inclusive public spaces 
+          past university, promoting gender-friendly cities and greater awareness
+          of LGBTQIA+ spatial planning and queer spaces which is one of the United Nations Sustainable Development
+             Goals (SDGs). 
+
+        </p>
+        <p>
+          Armed with these insights, we consider how Caltech could leverage its
+           data to create a more supportive environment for its students. 
+           Worthwhile future work would strengthen the importance of fostering 
+           an inclusive community through the Houses that supports students from all backgrounds. 
+        </p>
+        </div>
+        <div class="credits-container">
+          <div class="credit">
+            <div class="credit-role">Authors</div>
+            <div class="credit-name">Maxwell Montemayor</div>
+            <div class="credit-name">Alicia Zhang</div>
+          </div>
+<!-- 
+          <div class="credit">
+            <div class="credit-role">Website</div>
+            <div class="credit-name">Alicia Zhang</div>
+          </div>
+          <div class="credit">
+            <div class="credit-role">Models</div>
+            <div class="credit-name">Maxwell Montemayor</div>
+          </div>
+          <div class="credit">
+            <div class="credit-role">Visuals</div>
+            <div class="credit-name">Maxwell Montemayor</div>
+            <div class="credit-name">Alicia Zhang</div>
+          </div> -->
+        </div>
+        <div id="conclusion">
+          <div class="bibliography">
+            <h2>References</h2>
+            <div class="reference-item">
+              <span class="reference-author">Allen, D. &amp; Wolniak, G. C.</span>
+              <a class="reference-title" href="https://link.springer.com/article/10.1007/s11162-018-9502-6" target="_blank">
+                Exploring the Effects of Tuition Increases on Racial/Ethnic Diversity at Public Colleges and Universities
+              </a>
+            </div>
+            <div class="reference-item">
+              <span class="reference-author">Rothman, S., Lipset, S. M., &amp; Nevitte, N.</span>
+              <a class="reference-title" href="https://academic.oup.com/ijpor/article-abstract/15/1/8/676150" target="_blank">
+                Does Enrollment Diversity Improve University Education?
+              </a>
+            </div>
+            <div class="reference-item">
+              <span class="reference-author">Lee, Y. C.</span>
+              <a class="reference-title" href="https://academic.oup.com/ijpor/article-abstract/15/1/8/676150" target="_blank">
+                Breaking gender-segregated dormitories: constructing a sustainable development space
+              </a>
+            </div>
+            <div class="reference-item">
+              <span class="reference-author">Gurin, P.; Dey, E.; Hurtado, S.; &amp; Gurin, G.</span>
+              <a class="reference-title" href="https://meridian.allenpress.com/her/article/72/3/330/31808/Diversity-and-Higher-Education-Theory-and-Impact" target="_blank">
+                Diversity and Higher Education: Theory and Impact on Educational Outcomes
+              </a>
+            </div>
+            <div class="reference-item">
+              <span class="reference-author">Carrell, S.; Hoekstra, M.; West, J.; &amp; Carrell, S.</span>
+              <a class="reference-title" href="https://www.aeaweb.org/articles?id=10.1257/pol.20170069" target="_blank">
+                The Impact of College Diversity on Behavior toward Minorities
+              </a>
+            </div>
+            <div class="reference-item">
+              <span class="reference-author">Bowman, N. A.</span>
+              <a class="reference-title" href="https://link.springer.com/article/10.1007/s11162-013-9300-0" target="_blank">
+                How Much Diversity is Enough? The Curvilinear Relationship Between College Diversity Interactions and First-Year Student Outcomes
+              </a>
+            </div>
+          </div>          
+        </div>
+    </body>
+</html>
